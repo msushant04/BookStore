@@ -1,0 +1,39 @@
+﻿
+@model IEnumerable<BookModel>;
+
+@*Multiple Parameter send to Anchor Tag Helper as-All-route-data
+    @{ 
+    var parameters = new Dictionary<string, string>
+    {
+        {"Name","Sushant" },
+        {"Id","1" },
+        {"Designation","Software Engineer" }
+    };
+}*@
+
+<div class="container">
+    <h1>All Books</h1>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm" style="width: 18rem;">
+                    <img src=@item.Path class="card-img-top" style="height:200px;"  alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                @*<a asp-controller="Book" asp-action="GetBook" asp-route-Id="@item.Id" class="btn btn-sm btn-outline-secondary">View Details</a>*@
+                                <a asp-route="Bookdetails" asp-route-Id="@item.Id" class="btn btn-sm btn-outline-secondary">View Details</a>
+
+                            </div>
+                            <small class="text-muted">@item.Auther</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

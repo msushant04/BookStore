@@ -1,0 +1,69 @@
+﻿@model BookModel;
+<div class="container">
+    <h3 class="display-4">Add New Book</h3>
+
+    @if (ViewBag.isSuccess == true)
+    {
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Book added successfully. <a asp-controller="Book" asp-action="GetBook" asp-route-id="@ViewBag.BookId">Click Here</a> to view details.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    }
+    <div asp-validation-summary="All"class="text-danger"></div>
+    <form method="post" asp-action="AddBook" asp-controller="Book">
+        @*<div class="form-group">
+            <label asp-for="MyField"></label>
+            <input asp-for="MyField" class="form-control" />
+            <span asp-validation-for="MyField" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="Title"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Auther"></label>
+            <input asp-for="Auther" class="form-control" />
+            <span asp-validation-for="Auther" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Category"></label>
+            <input asp-for="Category" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Pages"></label>
+            <input asp-for="Pages" class="form-control" />
+            <span asp-validation-for="Pages" class="text-danger"></span>
+        </div>
+        @*<div class="form-group">
+            <label asp-for="Language"></label>
+            <select class="form-control" asp-for="Language">
+                <option value="">Choose Language</option>
+                <option>English</option>
+                <option>Marathi</option>
+                <option>Hindi</option>
+            </select>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="Language"></label>
+            <select class="form-control" asp-for="Language" asp-items="ViewBag.ddlList">
+              
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" />
+        </div>
+    </form>
+</div> 

@@ -1,0 +1,78 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AboutUs</title>
+</head>
+<body>
+    <h1>About page of book store app</h1>
+    <br /><br /><br />
+    <h1 style="color:brown">Razor View Engine sample ex</h1>
+    <h2>@DateTime.Now.ToString("dd-MMM-yyyy")</h2>
+    <h2>Addition of 3 + 2 = @(3 + 2)</h2>
+    @{
+        int a = 10;
+        int b = 20;
+        int c = a + b;
+    }
+    <h2> @c </h2>
+    <h2>Email Id is : sushant.mahadik@tadigital.com</h2>
+
+    <br /><br />
+    <h1 style="color:brown">Conditional Statements</h1>
+    @{
+        int k = 6;
+    }
+
+    @if (k < 5)
+    {
+        <h2>If block executed</h2>
+    }
+    else
+    {
+        <h2>else block executed</h2>
+    }
+
+    <br /><br />
+    <h1 style="color:brown">Switch Case</h1>
+    @switch (k)
+    {
+        case 1:<h2>Case 1</h2>
+            break;
+        case 2: <h2>Case 2</h2>
+            break;
+        case 3: <h2>Case 3</h2>
+            break;
+        case 4: <h2>Case 4</h2>
+            break;
+        case 5: <h2>Case 5</h2>
+            break;
+        case 6: <h2>Case 6</h2>
+            break;
+        default: <h2>Default case</h2>
+            break;
+    }
+    <br /><br />
+
+    <h2 style="color:brown">For loop</h2>
+    @for (int i = 1; i <= 5; i++)
+    {
+        <h2>@i</h2>
+    }
+    <h2 style="color:brown">For Each Loop</h2>
+    <h2>Sushant Shankar Mahadik</h2>
+    @{var Name = "Sushant Shankar Mahadik";
+
+        foreach (var i in Name.Split(' '))
+        {
+            <h3>@i</h3>
+        }
+    }
+</body>
+</html>
