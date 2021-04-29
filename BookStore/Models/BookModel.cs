@@ -9,9 +9,6 @@ namespace BookStore.Models
 {
     public class BookModel
     {
-        //[Display(Name ="Custom Email")]
-        //[DataType(DataType.EmailAddress)]
-        //public string MyField { get; set; }
         public int Id { get; set; }
         [StringLength(100,MinimumLength =5)]
         [Required(ErrorMessage ="Please enter Book Name.")]
@@ -31,9 +28,5 @@ namespace BookStore.Models
         [Display(Name = "Language")]
         public int LanguageId { get; set; }
         public string Language { get; set; }
-
-        //[Required]
-        //public LanguageEnum LanguageEnum { get; set; }
-        //public List<string> MultiLanguage { get; set; }
     }
 }

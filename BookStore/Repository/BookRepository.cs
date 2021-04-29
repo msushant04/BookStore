@@ -53,28 +53,6 @@ namespace BookStore.Repository
                             Description = a.Description,
                             Path=a.Path                            
                         }).ToList();
-
-            #region Commented Code
-            //if (AllBooks?.Any() == true)
-            //{
-            //    foreach (var book in AllBooks)
-            //    {
-            //        bookModel.Add(new BookModel()
-            //        {
-            //            Id = book.Id,
-            //            Auther = book.Auther,
-            //            Category = book.Category,
-            //            LanguageId = book.LanguageId,
-            //            Language = book.Language.Text,
-            //            Pages = book.Pages,
-            //            Title = book.Title,
-            //            Price = book.Price,
-            //            Description = book.Description,
-            //            Path = book.Path == null ? "/images/book2.jfif" : book.Path
-            //        });
-            //    }
-            //}
-            #endregion
             return temp;
         }
         public async Task<BookModel> GetBookById(int id)
@@ -97,25 +75,6 @@ namespace BookStore.Repository
                             Description = a.Description,
                             Path=a.Path
                         }).FirstOrDefault();
-
-            #region Commented Code
-            //if (book != null)
-            //{
-            //    var bookData = new BookModel()
-            //    {
-            //        Id = book.Id,
-            //        Auther = book.Auther,
-            //        Category = book.Category,
-            //        LanguageId = book.LanguageId,
-            //        Language=book.Language.Text,
-            //        Pages = book.Pages,
-            //        Title = book.Title,
-            //        Price = book.Price,
-            //        Description = book.Description
-            //    };
-            //    return bookData;
-            //}
-            #endregion
             return temp;
         }
         public List<BookModel> SearchBook(string Name, string Auther)

@@ -22,7 +22,6 @@ namespace BookStore.Controllers
 
         public async Task<ViewResult> GetAllBooks()
         {
-            //return View(_bookRepository.AllBooks());
             var data = await _bookRepository.AllBooks();
             return View(data);
         }
@@ -30,12 +29,6 @@ namespace BookStore.Controllers
         [Route("book-details/{id}", Name = "Bookdetails")]
         public async Task<ViewResult> GetBook(int id)
         {
-            #region Dynamic View ex
-            //dynamic data = new ExpandoObject();
-            //data.Book= bookRepository.GetBookById(id);
-            //data.CoverColor = "Red";
-            #endregion
-
             var data = await _bookRepository.GetBookById(id);
             return View(data);
         }
@@ -52,44 +45,6 @@ namespace BookStore.Controllers
                 //LanguageId = 1
             };
 
-            #region By using SelectList
-            //ViewBag.ddlList = new SelectList(GetLanguage(), "Id", "Text"); //1
-            #endregion
-
-            #region By using SelectListItem
-            //ViewBag.ddlList = GetLanguage().Select(x => new SelectListItem() 
-            //{
-            //    Value = x.Id.ToString(),
-            //    Text = x.Text
-            //}); //2
-            #endregion
-
-            #region By using SelectListGroup
-            //var group1 = new SelectListGroup() { Name = "India" };
-            //var group2 = new SelectListGroup() { Name = "China" };
-            //var group3 = new SelectListGroup() { Name = "Pakistan" };
-            //ViewBag.ddlList = new List<SelectListItem>()
-            //{
-            //     new SelectListItem(){ Text="English", Value="1", Group=group1 },
-            //     new SelectListItem(){ Text="Hindi", Value="2", Group=group1 },
-            //     new SelectListItem(){ Text="Marathi", Value="3", Group=group1 },
-            //     new SelectListItem(){ Text="Urdu", Value="4", Group=group3 },
-            //     new SelectListItem(){ Text="Hindi", Value="5", Group=group3 },
-            //     new SelectListItem(){ Text="Chinese", Value="6", Group=group2 }
-            //};
-            #endregion
-
-            #region By Using Multiselect Without Group
-            //ViewBag.ddlList = new List<SelectListItem>()
-            //{
-            //     new SelectListItem(){ Text="English", Value="1" },
-            //     new SelectListItem(){ Text="Hindi", Value="2" },
-            //     new SelectListItem(){ Text="Marathi", Value="3" },
-            //     new SelectListItem(){ Text="Urdu", Value="4" },
-            //     new SelectListItem(){ Text="Hindi", Value="5"},
-            //     new SelectListItem(){ Text="Chinese", Value="6" }
-            //};
-            #endregion
             var lang = await _languageRepository.Languages();
             ViewBag.Languages = new SelectList(lang, "Id", "Text");
            
@@ -106,45 +61,6 @@ namespace BookStore.Controllers
                     return RedirectToAction(nameof(AddBook), new { isSuccess = true, BookId = id });
                 }
             }
-
-            #region By using SelectList
-            //ViewBag.ddlList = new SelectList(GetLanguage(), "Id", "Text"); //1
-            #endregion
-
-            #region By using SelectListItem
-            //ViewBag.ddlList = GetLanguage().Select(x => new SelectListItem() 
-            //{
-            //    Value = x.Id.ToString(),
-            //    Text = x.Text
-            //}); //2
-            #endregion
-
-            #region By using SelectListGroup
-            //var group1 = new SelectListGroup() { Name = "India" , Disabled=true};
-            //var group2 = new SelectListGroup() { Name = "China" };
-            //var group3 = new SelectListGroup() { Name = "Pakistan", Disabled=true };
-            //ViewBag.ddlList = new List<SelectListItem>()
-            //{
-            //     new SelectListItem(){ Text="English", Value="1", Group=group1 },
-            //     new SelectListItem(){ Text="Hindi", Value="2", Group=group1 },
-            //     new SelectListItem(){ Text="Marathi", Value="3", Group=group1 },
-            //     new SelectListItem(){ Text="Urdu", Value="4", Group=group3 },
-            //     new SelectListItem(){ Text="Hindi", Value="5", Group=group3 },
-            //     new SelectListItem(){ Text="Chinese", Value="6", Group=group2 }
-            //};
-            #endregion
-
-            #region By Using Multiselect Without Group
-            //ViewBag.ddlList = new List<SelectListItem>()
-            //{
-            //     new SelectListItem(){ Text="English", Value="1" },
-            //     new SelectListItem(){ Text="Hindi", Value="2" },
-            //     new SelectListItem(){ Text="Marathi", Value="3" },
-            //     new SelectListItem(){ Text="Urdu", Value="4" },
-            //     new SelectListItem(){ Text="Hindi", Value="5"},
-            //     new SelectListItem(){ Text="Chinese", Value="6" }
-            //};
-            #endregion
 
             ViewBag.Languages = new SelectList( await _languageRepository.Languages(),"Id", "Text");
             return View();
