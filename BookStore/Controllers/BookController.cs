@@ -47,9 +47,9 @@ namespace BookStore.Controllers
             ViewBag.BookId = BookId;
             var data = new BookModel()
             {
-                Language = "English"
+                Language = "1"
             };
-            ViewBag.ddlList = new SelectList(new List<string>() { "English", "Marathi", "Hindi", "Telagu" });
+            ViewBag.ddlList = new SelectList(GetLanguage(), "Id", "Text");
             return View(data);
         }
         [HttpPost]
@@ -63,9 +63,18 @@ namespace BookStore.Controllers
                     return RedirectToAction(nameof(AddBook), new { isSuccess = true, BookId = id });
                 }
             }
-            ModelState.AddModelError("", "Custom Model Error");
-            ViewBag.ddlList = new List<string>() { "English", "Marathi", "Hindi", "Telagu" };
+            ViewBag.ddlList = new SelectList(GetLanguage(), "Id", "Text");
             return View();
+        }
+        private List<LanguageModel> GetLanguage()
+        {
+            var lst = new List<LanguageModel>()
+            {
+                 new LanguageModel(){ Id=1, Text="English"},
+                 new LanguageModel(){ Id=2,Text="Hindi"},
+                 new LanguageModel(){ Id=3,Text="Marathi"}
+            };
+            return lst;
         }
     }
 }
