@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BookStore.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookStore.Models
@@ -27,6 +28,12 @@ namespace BookStore.Models
         [Display(Name ="Total Book Pages")]
         public int? Pages { get; set; }
         [Required]
+        [Display(Name = "Language")]
+        public int LanguageId { get; set; }
         public string Language { get; set; }
+
+        //[Required]
+        //public LanguageEnum LanguageEnum { get; set; }
+        //public List<string> MultiLanguage { get; set; }
     }
 }
