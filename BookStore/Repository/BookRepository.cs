@@ -22,6 +22,7 @@ namespace BookStore.Repository
                 Auther = bookModel.Auther,
                 Category = bookModel.Category,
                 LanguageId = bookModel.LanguageId,
+                Path = bookModel.Path,
                 Pages = bookModel.Pages.HasValue ? bookModel.Pages.Value : 0,
                 Title = bookModel.Title,
                 Price = bookModel.Price.HasValue ? bookModel.Price.Value : 0,

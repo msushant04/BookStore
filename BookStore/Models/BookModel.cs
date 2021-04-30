@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Enum;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Models
 {
@@ -28,5 +29,7 @@ namespace BookStore.Models
         [Display(Name = "Language")]
         public int LanguageId { get; set; }
         public string Language { get; set; }
+        [Required]
+        public IFormFile CoverPhoto { get; set; }
     }
 }

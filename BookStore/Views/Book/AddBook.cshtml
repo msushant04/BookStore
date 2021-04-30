@@ -4,20 +4,23 @@
 
     @if (ViewBag.isSuccess == true)
     {
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Book added successfully. <a asp-controller="Book" asp-action="GetBook" asp-route-id="@ViewBag.BookId">Click Here</a> to view details.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Book added successfully. <a asp-controller="Book" asp-action="GetBook" asp-route-id="@ViewBag.BookId">Click Here</a> to view details.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     }
-    <div asp-validation-summary="All"class="text-danger"></div>
-    <form method="post" asp-action="AddBook" asp-controller="Book">
-        @*<div class="form-group">
-            <label asp-for="MyField"></label>
-            <input asp-for="MyField" class="form-control" />
-            <span asp-validation-for="MyField" class="text-danger"></span>
-        </div>*@
+    <div class="d-flex justify-content-center" >
+        <div class="spinner-border" role="status" id="loader" style="display:none;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form method="post" enctype="multipart/form-data" asp-action="AddBook" asp-controller="Book">
+        @*data-ajax="true" data-ajax-complete="mycomplete" data-ajax-loading="#loader"
+        data-ajax-success="addsuccess" data-ajax-failure="addfailure"*@
+
         <div class="form-group">
             <label asp-for="Title"></label>
             <input asp-for="Title" class="form-control" />
@@ -41,13 +44,22 @@
             <label asp-for="Pages"></label>
             <input asp-for="Pages" class="form-control" />
             <span asp-validation-for="Pages" class="text-danger"></span>
-        </div>       
+        </div>
         <div class="form-group">
             <label asp-for="LanguageId"></label>
             <select class="form-control" asp-for="LanguageId" asp-items="@ViewBag.Languages">
                 <option value="">Choose Language</option>
             </select>
             <span asp-validation-for="LanguageId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CoverPhoto"></label>
+            <div class="custom-file">
+                <input asp-for="CoverPhoto" class="custom-file-input" id="customFile">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="Description"></label>
@@ -59,3 +71,17 @@
         </div>
     </form>
 </div> 
+
+@section script{ 
+<script>
+    function mycomplete() {
+        //alert("Ajax Complete");
+    }
+    function addsuccess() {
+        alert("Ajax Success");
+    }
+    function addfailure() {
+        alert("Ajax Fail");
+    }
+</script>
+}

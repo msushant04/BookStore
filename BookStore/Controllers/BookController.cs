@@ -7,6 +7,8 @@ using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace BookStore.Controllers
 {
@@ -14,10 +16,14 @@ namespace BookStore.Controllers
     {
         public readonly BookRepository _bookRepository = null;
         public readonly LanguageRepository _languageRepository = null;
-        public BookController(BookRepository bookRepository, LanguageRepository languageRepository)
+        public readonly IWebHostEnvironment _webHostEnvironment = null;
+        public BookController(BookRepository bookRepository, 
+            LanguageRepository languageRepository, 
+            IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
             _languageRepository = languageRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ViewResult> GetAllBooks()
@@ -55,6 +61,14 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (bookModel.CoverPhoto != null)
+                {
+                    string folder = "images/";
+                    folder += Guid.NewGuid().ToString() + bookModel.CoverPhoto.FileName;
+                    string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath,folder);
+                    await bookModel.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                    bookModel.Path = "/" + folder;
+                }
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
                 {
