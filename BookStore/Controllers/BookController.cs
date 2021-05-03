@@ -67,6 +67,21 @@ namespace BookStore.Controllers
                     string folder = "images/";
                     bookModel.Path = await UploadImage(folder, bookModel.CoverPhoto);
                 }
+                if (bookModel.GallaryFiles != null)
+                {
+                    var gallaryData = new List<GallaryModel>();
+                    foreach (var file in bookModel.GallaryFiles)
+                    {
+                        string folder = "images/Gallary/";
+                        gallaryData.Add(new GallaryModel()
+                        {
+                            Name = file.FileName,
+                            Path = await UploadImage(folder, file)
+                        });
+                    }
+                    bookModel.Gallary = gallaryData;
+                }
+
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
                 {

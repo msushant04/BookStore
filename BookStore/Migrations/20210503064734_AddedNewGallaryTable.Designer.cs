@@ -4,14 +4,16 @@ using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20210503064734_AddedNewGallaryTable")]
+    partial class AddedNewGallaryTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,6 +28,9 @@ namespace BookStore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BooksId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -37,7 +42,7 @@ namespace BookStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("bookId");
+                    b.HasIndex("BooksId");
 
                     b.ToTable("BookGallary");
                 });
@@ -106,13 +111,9 @@ namespace BookStore.Migrations
 
             modelBuilder.Entity("BookStore.Data.BookGallary", b =>
                 {
-                    b.HasOne("BookStore.Data.Books", "Book")
+                    b.HasOne("BookStore.Data.Books", null)
                         .WithMany("bookGallary")
-                        .HasForeignKey("bookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
+                        .HasForeignKey("BooksId");
                 });
 
             modelBuilder.Entity("BookStore.Data.Books", b =>

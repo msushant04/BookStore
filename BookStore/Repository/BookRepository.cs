@@ -29,6 +29,17 @@ namespace BookStore.Repository
                 Description = bookModel.Description,
                 CreatedOn = DateTime.UtcNow
             };
+            var bookGallary = new List<BookGallary>();
+            foreach (var files in bookModel.Gallary)
+            {
+                bookGallary.Add(new BookGallary()
+                {
+                    Name = files.Name,
+                    Path = files.Path
+                });
+            }
+            newBook.bookGallary = bookGallary;
+
             await _context.Books.AddAsync(newBook);
             await _context.SaveChangesAsync();
 
@@ -52,7 +63,7 @@ namespace BookStore.Repository
                             Title = a.Title,
                             Price = a.Price,
                             Description = a.Description,
-                            Path=a.Path                            
+                            Path = a.Path
                         }).ToList();
             return temp;
         }
@@ -74,13 +85,26 @@ namespace BookStore.Repository
                             Title = a.Title,
                             Price = a.Price,
                             Description = a.Description,
-                            Path=a.Path
+                            Path = a.Path
                         }).FirstOrDefault();
+
+            var GallaryImagesList = (from GI in _context.BookGallary
+                                     where GI.bookId == id
+                                     select new GallaryModel()
+                                     {
+                                         Id = GI.Id,
+                                         Name = GI.Name,
+                                         Path = GI.Path
+                                     }).ToListAsync();
+            if (GallaryImagesList != null)
+            {
+                temp.Gallary = await GallaryImagesList;
+            }
             return temp;
         }
         public List<BookModel> SearchBook(string Name, string Auther)
         {
-            return null; 
+            return null;
         }
     }
 }

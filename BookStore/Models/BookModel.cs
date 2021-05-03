@@ -31,5 +31,7 @@ namespace BookStore.Models
         public string Language { get; set; }
         [Required]
         public IFormFile CoverPhoto { get; set; }
+        public IFormFileCollection GallaryFiles { get; set; }
+        public List<GallaryModel> Gallary { get; set; }
     }
 }
