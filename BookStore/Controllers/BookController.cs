@@ -9,6 +9,7 @@ using System.Dynamic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Controllers
 {
@@ -64,10 +65,7 @@ namespace BookStore.Controllers
                 if (bookModel.CoverPhoto != null)
                 {
                     string folder = "images/";
-                    folder += Guid.NewGuid().ToString() + bookModel.CoverPhoto.FileName;
-                    string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath,folder);
-                    await bookModel.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                    bookModel.Path = "/" + folder;
+                    bookModel.Path = await UploadImage(folder, bookModel.CoverPhoto);
                 }
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
@@ -79,6 +77,15 @@ namespace BookStore.Controllers
             ViewBag.Languages = new SelectList( await _languageRepository.Languages(),"Id", "Text");
             return View();
         }
+
+        private async Task<string> UploadImage(string folderPath, IFormFile file)
+        {
+            folderPath += Guid.NewGuid().ToString() + file.FileName;
+            string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            return "/" + folderPath;
+        }
+
         private List<LanguageModel> GetLanguage()
         {
             var lst = new List<LanguageModel>()
