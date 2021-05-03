@@ -81,6 +81,11 @@ namespace BookStore.Controllers
                     }
                     bookModel.Gallary = gallaryData;
                 }
+                if (bookModel.BookPdf != null)
+                {
+                    string folder = "images/PDF/";
+                    bookModel.BookPdfUrl = await UploadImage(folder, bookModel.BookPdf);
+                }
 
                 int id = await _bookRepository.AddBook(bookModel);
                 if (id > 0)
@@ -99,17 +104,6 @@ namespace BookStore.Controllers
             string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
             await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
             return "/" + folderPath;
-        }
-
-        private List<LanguageModel> GetLanguage()
-        {
-            var lst = new List<LanguageModel>()
-            {
-                 new LanguageModel(){ Id=1, Text="English"},
-                 new LanguageModel(){ Id=2,Text="Hindi"},
-                 new LanguageModel(){ Id=3,Text="Marathi"}
-            };
-            return lst;
         }
     }
 }

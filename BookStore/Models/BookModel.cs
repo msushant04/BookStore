@@ -29,9 +29,14 @@ namespace BookStore.Models
         [Display(Name = "Language")]
         public int LanguageId { get; set; }
         public string Language { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please select cover photo.")]
         public IFormFile CoverPhoto { get; set; }
+        [Required(ErrorMessage = "Please select cover Gallary.")]
         public IFormFileCollection GallaryFiles { get; set; }
         public List<GallaryModel> Gallary { get; set; }
+        [Required(ErrorMessage = "Please Upload PDF.")]
+        public IFormFile BookPdf { get; set; }
+        public string BookPdfUrl { get; set; }
+
     }
 }

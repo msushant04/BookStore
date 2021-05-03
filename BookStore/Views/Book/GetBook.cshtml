@@ -1,5 +1,24 @@
 ﻿@model BookModel
 
+<div class="modal bg-dark" tabindex="-1" id="modelPopup" style="display:none;">
+    <div class="modal-dialog modal-lg" style="height:90%;">
+        <div class="modal-content" style="height:100%;">
+            <div class="modal-header">
+                @*<h5 class="modal-title">Modal title</h5>*@
+                <button type="button" class="close" onclick="$('#modelPopup').hide();" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modelPopupBody">
+                <iframe id="iframeBook" class="w-100 h-100" ></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#modelPopup').hide();" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <h1>Book details</h1>
     <div class="row">
@@ -58,7 +77,8 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <button class="btn btn-outline-primary">Read now</button>
+                    <button class="btn btn-outline-primary" id="btnReadNow">Read now</button>
+                    <input type="hidden" id="hdnPdfUrl" value="@Model.BookPdfUrl" />
                 </div>
             </div>
             <hr />
@@ -122,3 +142,11 @@
     </div>
 </div>
 
+@section script{
+    <script type="text/javascript">
+        $("#btnReadNow").click(function () {
+            $("#modelPopup").show();
+            $("#iframeBook").attr("src", $("#hdnPdfUrl").val());
+        });
+    </script>
+}

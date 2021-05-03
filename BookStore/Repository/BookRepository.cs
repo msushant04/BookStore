@@ -27,7 +27,8 @@ namespace BookStore.Repository
                 Title = bookModel.Title,
                 Price = bookModel.Price.HasValue ? bookModel.Price.Value : 0,
                 Description = bookModel.Description,
-                CreatedOn = DateTime.UtcNow
+                CreatedOn = DateTime.UtcNow,
+                BookPdfUrl = bookModel.BookPdfUrl
             };
             var bookGallary = new List<BookGallary>();
             foreach (var files in bookModel.Gallary)
@@ -85,7 +86,8 @@ namespace BookStore.Repository
                             Title = a.Title,
                             Price = a.Price,
                             Description = a.Description,
-                            Path = a.Path
+                            Path = a.Path,
+                            BookPdfUrl = a.BookPdfUrl
                         }).FirstOrDefault();
 
             var GallaryImagesList = (from GI in _context.BookGallary
