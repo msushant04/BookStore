@@ -2,76 +2,35 @@
 <section class="jumbotron text-center">
     <div class="container">
         @*<environment names="Development">
-            <h1>Development Environment</h1>
-        </environment>
-        <environment names="Production">
-            <h1>Production Environment</h1>
-        </environment>*@
+                <h1>Development Environment</h1>
+            </environment>
+            <environment names="Production">
+                <h1>Production Environment</h1>
+            </environment>*@
         <h1>Welcome to Book Store</h1>
-        <p class="lead text-muted"> This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <p class="lead text-muted">
+            Online Book store is an online web application where the customer can purchase books
+            online. Through a web browser the customers can search for a book by its title or author,
+            later can add to the shopping cart and finally purchase using credit card transaction.
+        </p>
         <hr>
         <a class="btn btn-primary btn-lg" href="#" role="button">Search Books</a>
     </div>
 </section>
 
 <div class="container">
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img src="~/images/logo.png"  style="height:200px;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Think & Grow Rich</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                        </div>
-                        <small class="text-muted">Auther</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card mb-4 " style="width: 18rem;">
-                <img src="~/images/book1.jfif"  style="height:200px;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Power of Subconcius Mind</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                        </div>
-                        <small class="text-muted">Auther</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <img src="~/images/book2.jfif" style="height:200px;" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Head You Wins</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-outline-secondary">View Details</a>
-                        </div>
-                        <small class="text-muted">Auther</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @*@await Component.InvokeAsync("TopBooks")*@ 
+    <vc:top-books count="3"></vc:top-books>
+  
 
 </div>
 
-@section script{ 
-<script type="text/javascript">
-    $(document).ready(function () {
-      //  alert("Index Page Loaded Successfully.")
-    });
-</script>
+@section script{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //  alert("Index Page Loaded Successfully.")
+        });
+    </script>
 }
 
 
