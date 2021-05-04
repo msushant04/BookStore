@@ -13,27 +13,28 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Controllers
 {
+    [Route("[controller]/[action]")]
     public class BookController : Controller
     {
-        public readonly BookRepository _bookRepository = null;
-        public readonly LanguageRepository _languageRepository = null;
+        public readonly IBookRepository _bookRepository = null;
+        public readonly ILanguageRepository _languageRepository = null;
         public readonly IWebHostEnvironment _webHostEnvironment = null;
-        public BookController(BookRepository bookRepository, 
-            LanguageRepository languageRepository, 
+        public BookController(IBookRepository bookRepository, 
+            ILanguageRepository languageRepository, 
             IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
             _languageRepository = languageRepository;
             _webHostEnvironment = webHostEnvironment;
         }
-
+        [Route("~/all-books")]
         public async Task<ViewResult> GetAllBooks()
         {
             var data = await _bookRepository.AllBooks();
             return View(data);
         }
 
-        [Route("book-details/{id}", Name = "Bookdetails")]
+        [Route("~/book-details/{id}", Name = "Bookdetails")]
         public async Task<ViewResult> GetBook(int id)
         {
             var data = await _bookRepository.GetBookById(id);
@@ -46,16 +47,8 @@ namespace BookStore.Controllers
         public async Task<ViewResult> AddBook(bool isSuccess = false, int BookId = 0)
         {
             ViewBag.isSuccess = isSuccess;
-            ViewBag.BookId = BookId;
-            var data = new BookModel()
-            {
-                //LanguageId = 1
-            };
-
-            var lang = await _languageRepository.Languages();
-            ViewBag.Languages = new SelectList(lang, "Id", "Text");
-           
-            return View(data);
+            ViewBag.BookId = BookId;            
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddBook(BookModel bookModel)
@@ -94,7 +87,6 @@ namespace BookStore.Controllers
                 }
             }
 
-            ViewBag.Languages = new SelectList( await _languageRepository.Languages(),"Id", "Text");
             return View();
         }
 

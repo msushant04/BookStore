@@ -7,8 +7,10 @@ using System.Dynamic;
 
 namespace BookStore.Controllers
 {
+    [Route("[controller]/[action]")]
     public class HomeController : Controller
     {
+        [Route("~/")]
         public IActionResult Index()
         {
             #region ExpondoOject Viewbag
@@ -19,10 +21,13 @@ namespace BookStore.Controllers
             #endregion
             return View();
         }
-        public ViewResult AboutUs()
+        //[Route("about-us/{id?}/{name?}")]
+       // [HttpGet("about-us",Name ="about-us",Order =1)]
+        public ViewResult AboutUs()//int? id,string name)
         {
             return View();
         }
+        //[Route("contact-us",Name ="contact-us")]
         public ViewResult ContactUs()
         {
             return View();

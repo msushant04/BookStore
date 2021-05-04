@@ -25,8 +25,8 @@ namespace BookStore
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
-            services.AddScoped<BookRepository, BookRepository>();
-            services.AddScoped<LanguageRepository, LanguageRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,8 @@ namespace BookStore
 
             app.UseEndpoints(endpoint =>
             {
-                endpoint.MapDefaultControllerRoute();
+                endpoint.MapControllers();
+               // endpoint.MapDefaultControllerRoute();
             });
 
             //app.UseEndpoints(endpoint =>
