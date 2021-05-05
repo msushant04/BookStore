@@ -10,23 +10,32 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BookStore.Repository;
+using Microsoft.Extensions.Configuration;
+using BookStore.Models;
 
 namespace BookStore
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server=TECH-LP-872\\MSSQLSERVER2019;Database=BookStore;user=sa;Password=Pass@123;"));
+            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
 
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.Configure<NewBookAlertConfig>(_configuration.GetSection("NewBookAlert"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
