@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using BookStore.Models;
 using Microsoft.Extensions.Options;
 using BookStore.Repository;
+using BookStore.Services;
 
 namespace BookStore.Controllers
 {
@@ -16,10 +17,14 @@ namespace BookStore.Controllers
     {
         private readonly NewBookAlertConfig _newbookalertconfig;
         private readonly IMessageRepository _messageRepository;
-        public HomeController(IOptionsSnapshot<NewBookAlertConfig> newbookalertconfig, IMessageRepository messageRepository)
+        private readonly IUserService _userService;
+        public HomeController(IOptionsSnapshot<NewBookAlertConfig> newbookalertconfig,
+            IMessageRepository messageRepository,
+            IUserService userService)
         {
             _newbookalertconfig = newbookalertconfig.Value;
             _messageRepository = messageRepository;
+            _userService = userService;
         }
         [Route("~/")]
         public IActionResult Index()
@@ -53,6 +58,10 @@ namespace BookStore.Controllers
             var dt = _messageRepository.GetName();
             #endregion
 
+            #region  Access current UserId and check he Authenticated or not
+            var userId = _userService.GetUserId();
+            var isAuthenticated = _userService.IsAuthenticated();
+            #endregion
 
             return View();
         }

@@ -13,6 +13,8 @@ using BookStore.Repository;
 using Microsoft.Extensions.Configuration;
 using BookStore.Models;
 using Microsoft.AspNetCore.Identity;
+using BookStore.Helpers;
+using BookStore.Services;
 
 namespace BookStore
 {
@@ -36,10 +38,14 @@ namespace BookStore
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
-            services.Configure<NewBookAlertConfig>(_configuration.GetSection("NewBookAlert"));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BookStoreContext>();
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+
+            services.Configure<NewBookAlertConfig>(_configuration.GetSection("NewBookAlert"));
             services.ConfigureApplicationCookie(configure =>
             {
                 configure.LoginPath = "/SignIn";

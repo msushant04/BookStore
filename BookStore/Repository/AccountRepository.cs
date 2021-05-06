@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Models;
+using BookStore.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Repository
@@ -11,11 +12,15 @@ namespace BookStore.Repository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserService _userService;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountRepository(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
         public async Task<IdentityResult> CreateUserAsync(SignUpUserModel signUpUserModel)
         {
@@ -35,6 +40,12 @@ namespace BookStore.Repository
         public async Task LogoutAsync()
         {
            await _signInManager.SignOutAsync();
+        }
+        public async Task<IdentityResult> ChangePasswordAsync(ChangePasswordModel changePasswordModel)
+        {
+            string UserId = _userService.GetUserId();
+            var user = await _userManager.FindByIdAsync(UserId);
+            return await _userManager.ChangePasswordAsync(user, changePasswordModel.CurrentPassword, changePasswordModel.NewPassword);
         }
     }
 }
