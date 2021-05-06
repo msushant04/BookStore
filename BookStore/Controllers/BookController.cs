@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStore.Controllers
 {
@@ -28,6 +29,7 @@ namespace BookStore.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
         [Route("~/all-books")]
+        [Authorize]
         public async Task<ViewResult> GetAllBooks()
         {
             var data = await _bookRepository.AllBooks();
@@ -44,7 +46,8 @@ namespace BookStore.Controllers
         {
             return _bookRepository.SearchBook(Name, auther);
         }
-        public async Task<ViewResult> AddBook(bool isSuccess = false, int BookId = 0)
+        [Authorize]
+        public ViewResult AddBook(bool isSuccess = false, int BookId = 0)
         {
             ViewBag.isSuccess = isSuccess;
             ViewBag.BookId = BookId;            

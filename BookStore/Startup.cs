@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using BookStore.Repository;
 using Microsoft.Extensions.Configuration;
 using BookStore.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore
 {
@@ -34,8 +35,15 @@ namespace BookStore
 #endif
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
             services.Configure<NewBookAlertConfig>(_configuration.GetSection("NewBookAlert"));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<BookStoreContext>();
+            services.ConfigureApplicationCookie(configure =>
+            {
+                configure.LoginPath = "/SignIn";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +56,8 @@ namespace BookStore
 
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
             //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapGet("/", async context =>
