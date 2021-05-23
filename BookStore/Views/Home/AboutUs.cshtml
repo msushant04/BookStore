@@ -9,6 +9,17 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>AboutUs</title>
+
+    @section script{
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // alert("Index Page Loaded Successfully.")
+                alert("About Page Loaded Successfully.");
+                $('ul li a ').removeClass('active');
+                $("#AboutUsLink").children().addClass('active');
+            });
+        </script>
+    }
 </head>
 <body>
     <h1>About page of book store app</h1>

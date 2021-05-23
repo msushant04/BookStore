@@ -15,13 +15,13 @@
                     @_configuration["AppName"]
                 </a>
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" asp-controller="Home" asp-action="Index">Home</a>
+                    <li class="nav-item" id="IndexLink">
+                        <a class="nav-link" aria-current="page"  asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="AboutUsLink" >
                         <a class="nav-link" asp-controller="Home" asp-action="AboutUs">About</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" id="ContactUs">
                         <a class="nav-link" asp-controller="Home" asp-action="ContactUs">Contact</a>
                     </li>
                     <li class="nav-item">
@@ -48,3 +48,19 @@
         </div>
     }
 </header>
+
+@*@section script{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$(document).on('click', '.nav-link', function () {
+            //    alert("Index Page Loaded Successfully.")
+            //});
+            //$('.nav-link').live('click', function () {
+            //    alert('hello from binded function call');
+            //});
+            function ChangeClass() {
+                alert('hello from binded function call');
+            }
+        });
+    </script>*@
+}

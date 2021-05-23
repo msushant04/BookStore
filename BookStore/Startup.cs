@@ -40,6 +40,9 @@ namespace BookStore
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.AddScoped<IEmailService, EmailService>();
+
+            services.Configure<SMTPConfigModel>(_configuration.GetSection("SMTPConfig"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<BookStoreContext>();

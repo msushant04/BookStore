@@ -18,13 +18,17 @@ namespace BookStore.Controllers
         private readonly NewBookAlertConfig _newbookalertconfig;
         private readonly IMessageRepository _messageRepository;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
+
         public HomeController(IOptionsSnapshot<NewBookAlertConfig> newbookalertconfig,
             IMessageRepository messageRepository,
-            IUserService userService)
+            IUserService userService,
+            IEmailService emailService)
         {
             _newbookalertconfig = newbookalertconfig.Value;
             _messageRepository = messageRepository;
             _userService = userService;
+            _emailService = emailService;
         }
         [Route("~/")]
         public IActionResult Index()
@@ -62,6 +66,7 @@ namespace BookStore.Controllers
             var userId = _userService.GetUserId();
             var isAuthenticated = _userService.IsAuthenticated();
             #endregion
+            ViewBag.ActiveMenu = "Index";
 
             return View();
         }
@@ -69,11 +74,18 @@ namespace BookStore.Controllers
         // [HttpGet("about-us",Name ="about-us",Order =1)]
         public ViewResult AboutUs()//int? id,string name)
         {
+            ViewBag.ActiveMenu = "AboutUs";
             return View();
         }
         //[Route("contact-us",Name ="contact-us")]
-        public ViewResult ContactUs()
+        public async Task<ViewResult> ContactUs()
         {
+            ViewBag.ActiveMenu = "ContactUs";
+            UserEmailOptions userEmailOptions = new UserEmailOptions()
+            {
+                ToEmails = new List<string>() { "msushant0004@gmail.com"}
+            };
+           await _emailService.SendTestEmail(userEmailOptions);
             return View();
         }
     }
