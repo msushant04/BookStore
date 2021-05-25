@@ -48,6 +48,13 @@ namespace BookStore
                 .AddEntityFrameworkStores<BookStoreContext>();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 
+            services.Configure<IdentityOptions>(option => {
+                option.Password.RequiredLength = 5;
+                option.Password.RequiredUniqueChars = 1;
+                option.Password.RequireDigit = false;
+                option.Password.RequireUppercase = false;
+                option.SignIn.RequireConfirmedEmail = true;
+            });
             services.Configure<NewBookAlertConfig>(_configuration.GetSection("NewBookAlert"));
             services.ConfigureApplicationCookie(configure =>
             {

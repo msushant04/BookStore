@@ -22,8 +22,8 @@ namespace BookStore.Services
         }
         public async Task SendTestEmail(UserEmailOptions userEmailOptions)
         {
-            userEmailOptions.Subject = "Test Email";
-            userEmailOptions.Body = GetEmailTemplate("TestEmail");
+            userEmailOptions.Subject = UpdatePlaceholders(userEmailOptions.Subject, userEmailOptions.Placeholders);
+            userEmailOptions.Body = UpdatePlaceholders(GetEmailTemplate("TestEmail"), userEmailOptions.Placeholders);
             await SendEmail(userEmailOptions);
         }
         private async Task SendEmail(UserEmailOptions userEmailOptions)
@@ -57,12 +57,26 @@ namespace BookStore.Services
 
                 string msg = ex.ToString();
             }
-            
+
         }
         public string GetEmailTemplate(string templateName)
         {
             string body = File.ReadAllText(string.Format(EmailTemplatePath, templateName));
             return body;
+        }
+        private string UpdatePlaceholders(string text, List<KeyValuePair<string, string>> keyValuePairs)
+        {
+            if (!string.IsNullOrEmpty(text) && keyValuePairs != null)
+            {
+                foreach (var placeholders in keyValuePairs)
+                {
+                    if (text.Contains(placeholders.Key))
+                    {
+                        text = text.Replace(placeholders.Key, placeholders.Value);
+                    }
+                }
+            }
+            return text;
         }
     }
 }

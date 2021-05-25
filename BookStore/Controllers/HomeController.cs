@@ -80,12 +80,19 @@ namespace BookStore.Controllers
         //[Route("contact-us",Name ="contact-us")]
         public async Task<ViewResult> ContactUs()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ViewResult> ContactUs(UserEmailOptions userEmailOptions)
+        {
             ViewBag.ActiveMenu = "ContactUs";
-            UserEmailOptions userEmailOptions = new UserEmailOptions()
+            userEmailOptions.ToEmails = new List<string>() { "msushant0004@gmail.com" };
+            userEmailOptions.Placeholders = new List<KeyValuePair<string, string>>()
             {
-                ToEmails = new List<string>() { "msushant0004@gmail.com"}
+                new KeyValuePair<string, string>("{{Name}}","Sushant")
             };
-           await _emailService.SendTestEmail(userEmailOptions);
+            await _emailService.SendTestEmail(userEmailOptions);
             return View();
         }
     }
