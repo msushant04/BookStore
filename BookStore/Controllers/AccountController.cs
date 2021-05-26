@@ -35,6 +35,7 @@ namespace BookStore.Controllers
                     return View(signUpUserModel);
                 }
                 ModelState.Clear();
+                return RedirectToAction("ConfirmEmail", new { email = signUpUserModel.Email });
             }
             return View(signUpUserModel);
         }
@@ -99,22 +100,48 @@ namespace BookStore.Controllers
             return View(changePasswordModel);
         }
         [HttpGet("confirm-email")]
-        public async Task<IActionResult> ConfirmEmail(string uid, string token)
+        public async Task<IActionResult> ConfirmEmail(string uid, string token,string email)
         {
+            EmailConfirmModel emailConfirmModel = new EmailConfirmModel()
+            {
+                Email = email
+            };
             if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(uid))
             {
               token = token.Replace(' ', '+');
               var result =  await _accountRepository.ConfirmEmail(uid, token);
                 if (result.Succeeded)
                 {
-                    ViewBag.IsSuccess = true;
+                    emailConfirmModel.IsEmailVerified = true;
                 }
                 else
                 {
-                    ViewBag.IsSuccess = false;
+                    emailConfirmModel.IsEmailVerified = false;
                 }
             }
-            return View();
+            return View(emailConfirmModel);
+        }
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(EmailConfirmModel model)
+        {
+            var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+            if (user != null)
+            {
+                if (user.EmailConfirmed)
+                {
+                    model.IsEmailConfirmed = true;
+                    return View(model); 
+                }
+                await _accountRepository.GenerateTokenAsync(user);
+                model.IsEmailSent = true;
+                ModelState.Clear();
+            }
+            else
+            {
+                ModelState.AddModelError("","Something went wrong.");
+            }
+
+            return View(model);
         }
     }
 }

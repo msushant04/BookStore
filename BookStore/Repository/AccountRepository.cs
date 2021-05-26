@@ -41,13 +41,23 @@ namespace BookStore.Repository
             var result = await _userManager.CreateAsync(user, signUpUserModel.Password);
             if (result.Succeeded)
             {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                if (!string.IsNullOrEmpty(token))
-                {
-                   await SendConfirmationLink(token, user);
-                }
+                await GenerateTokenAsync(user);
             }
             return result;
+        }
+
+        public async Task GenerateTokenAsync(ApplicationUser user)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendConfirmationLink(token, user);
+            }
+        }
+
+        public async Task<ApplicationUser> GetUserByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
         }
         private async Task SendConfirmationLink(string token, ApplicationUser user)
         {
