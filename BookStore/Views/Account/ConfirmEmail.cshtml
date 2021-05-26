@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "ConfirmEmail";
+}
+
+<h1>Confirm Email</h1>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4">
+            @if (ViewBag.IsSuccess)
+            {
+                <div class="alert alert-success" role="alert">
+                    <p>Your email has verified successfully.</p>
+                </div>
+            }
+            else
+            {
+                <p>Something went wrong your token expired.</p>
+            }
+        </div>
+    </div>
+</div>

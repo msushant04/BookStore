@@ -45,7 +45,7 @@ namespace BookStore
             services.Configure<SMTPConfigModel>(_configuration.GetSection("SMTPConfig"));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<BookStoreContext>();
+                .AddEntityFrameworkStores<BookStoreContext>().AddDefaultTokenProviders();
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 
             services.Configure<IdentityOptions>(option => {

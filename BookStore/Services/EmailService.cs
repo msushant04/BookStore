@@ -26,6 +26,12 @@ namespace BookStore.Services
             userEmailOptions.Body = UpdatePlaceholders(GetEmailTemplate("TestEmail"), userEmailOptions.Placeholders);
             await SendEmail(userEmailOptions);
         }
+        public async Task SendConfirmationEmail(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceholders(userEmailOptions.Subject, userEmailOptions.Placeholders);
+            userEmailOptions.Body = UpdatePlaceholders(GetEmailTemplate("EmailConfirmation"), userEmailOptions.Placeholders);
+            await SendEmail(userEmailOptions);
+        }
         private async Task SendEmail(UserEmailOptions userEmailOptions)
         {
             try
