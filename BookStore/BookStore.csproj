@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\images\Gallary\" />
     <Folder Include="wwwroot\images\PDF\" />
     <Folder Include="wwwroot\js\" />
