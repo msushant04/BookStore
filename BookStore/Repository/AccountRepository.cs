@@ -94,5 +94,35 @@ namespace BookStore.Repository
         {
             return await _userManager.ConfirmEmailAsync(await _userManager.FindByIdAsync(uid), token);
         }
+        public async Task GenerateForgotPasswordTokenAsync(ApplicationUser user)
+        {
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            if (!string.IsNullOrEmpty(token))
+            {
+                await SendForgotPasswordLink(token, user);
+            }
+        }
+        private async Task SendForgotPasswordLink(string token, ApplicationUser user)
+        {
+            var domain = _configuration.GetSection("Application:AppDomain").Value;
+            var confirmationLink = _configuration.GetSection("Application:ForgotPassword").Value;
+            UserEmailOptions userEmailOptions = new UserEmailOptions()
+            {
+                ToEmails = new List<string>() { user.Email },
+                Subject = "Forgot Password",
+                Placeholders = new List<KeyValuePair<string, string>>()
+                {
+                  new KeyValuePair<string, string>("{{Name}}",user.FirstName),
+                  new KeyValuePair<string, string>("{{Link}}",string.Format(domain + confirmationLink, user.Id, token))
+                }
+            };
+
+            await _emailService.SendForgotPasswordEmail(userEmailOptions);
+        }
+        public async Task<IdentityResult> ResetPasswordAsync(ResetPasswordModel resetPasswordModel)
+        {
+            var user = await _userManager.FindByIdAsync(resetPasswordModel.UserId);
+            return await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+        }
     }
 }

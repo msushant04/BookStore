@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Models;
 using BookStore.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Controllers
@@ -142,6 +143,54 @@ namespace BookStore.Controllers
             }
 
             return View(model);
+        }
+        [HttpGet("forgot-password"), AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("forgot-password"), AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _accountRepository.GetUserByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    await _accountRepository.GenerateForgotPasswordTokenAsync(user);
+                }
+                ModelState.Clear();
+                model.EmailSent = true;
+            }
+            return View(model);
+        }
+        [HttpGet("reset-password"), AllowAnonymous]
+        public IActionResult ResetPassword(string UID, string Token)
+        {
+            ResetPasswordModel resetPasswordModel = new ResetPasswordModel()
+            {
+                UserId = UID,
+                Token = Token
+            };
+            return View(resetPasswordModel);
+        }
+        [HttpPost("reset-password"), AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            resetPasswordModel.Token = resetPasswordModel.Token.Replace(' ', '+');
+            var result = await _accountRepository.ResetPasswordAsync(resetPasswordModel);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(resetPasswordModel);
+            }
+            ViewBag.isResetPasswordSuccess = true;
+            ModelState.Clear();
+            return View(resetPasswordModel);
         }
     }
 }
